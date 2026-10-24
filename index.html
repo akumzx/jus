@@ -1,10 +1,273 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <title>Da helly</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+  <script src="script.js"></script>
 <body>
-  <h1>Hello, world!</h1>
-  <p></p>
+
+  <!-- ===== Header / Navigation ===== -->
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Main navigation">
+      <a href="#home" class="logo"></span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#what-i-do">What I Do</a></li>
+        <li><a href="#projects">Games</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===== Hero ===== -->
+    <section id="home" class="hero">
+      <div class="container hero-content">
+        <h1>Hi, I'm <span class="highlight">JJ.</span></h1>
+        <p class="hero-text">
+         Enjoys sleeping and procastinating.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">View my Games</a>
+          <a href="#contact" class="btn btn-outline">Contact Me</a>
+        </div>
+      </div>
+    </section>
+
+        <!-- ===== About Me ===== -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-subtitle">Who I am and what drives me.</p>
+
+        <div class="about-layout">
+
+          <div class="avatar">
+            <img src="images/monke.jpg" alt="Photo of JJ">
+          </div>
+
+          <div class="about-text">
+            <h3>Hello! I'm JJ.</h3>
+            <p>
+              I am an Information TECHONOLOGIA studint.
+              I enjoy playing games, learning new things.
+            </p>
+            <p>
+              <strong>My goals:</strong> to reach radiant in val
+            </p>
+            <p>
+              <strong>My interests:</strong> web development, game development,
+              databases, networking, and emerging technologies. I also enjoy
+              working with others and learning from their ideas.
+            </p>
+
+            <ul class="facts">
+              <li><strong>Complainer</strong>will complain but does the job.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+        <!-- ===== What I Do ===== -->
+    <section id="what-i-do" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">What I Do</h2>
+        <p class="section-subtitle">Vibing</p>
+
+        <ul class="activity-grid">
+          <li class="activity-item">
+            <span class="icon">
+              <img src="images/sleeping.jpg" alt="Me sleeping">
+            </span>
+            <h3>Sleeping</h3>
+            <p>Designing and building in my dream.</p>
+          </li>
+          <li class="activity-item">
+            <span class="icon">
+              <img src="images/daydreaming.jpg" alt="Me daydreaming">
+            </span>
+            <h3>Daydreaming</h3>
+            <p>I am insane.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== My Projects ===== -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2 class="section-title">My games</h2>
+        <p class="section-subtitle">A few things I've played.</p>
+
+        <div class="card-grid">
+
+          <article class="project-card">
+            <span class="tag">FPS</span>
+            <h3>Valorant</h3>
+            <p>
+             No need to say anything about this **** game.
+            </p>
+            <ul class="tech-list" aria-label="Technologies used">
+              <li>Complainer</li>
+              <li>Vibe merchant</li>
+              <li>Scream</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <span class="tag">FPS</span>
+            <h3>Apex Legends</h3>
+            <p>
+              Another **** game no need introduction.
+            </p>
+            <ul class="tech-list" aria-label="Technologies used">
+              <li>Hate third parties</li>
+              <li>Likes to third parties</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <span class="tag">Sandbox</span>
+            <h3>Terraria</h3>
+            <p>
+              Very good game, you should try it and minecraft
+            </p>
+            <ul class="tech-list" aria-label="Technologies used">
+              <li>Summoner</li>
+              <li>Melee</li>
+              <li>Range</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== My Skills ===== -->
+    <section id="skills" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">My Skills</h2>
+        <p class="section-subtitle"></p>
+
+        <div class="skills-grid">
+
+          <article class="skill-card">
+            <h3>Yapping</h3>
+            <p>Structured bullshit.</p>
+            <div class="bar"><span class="bar-fill level-90"></span></div>
+          </article>
+
+          <article class="skill-card">
+            <h3>Aint my fault</h3>
+            <p>Really wasnt.</p>
+            <div class="bar"><span class="bar-fill level-85"></span></div>
+          </article>
+
+          <article class="skill-card">
+            <h3>Wtf is my team doing</h3>
+            <p>idk to</p>
+            <div class="bar"><span class="bar-fill level-70"></span></div>
+          </article>
+
+          <article class="skill-card">
+            <h3>I hate this game</h3>
+            <p>Still plays it</p>
+            <div class="bar"><span class="bar-fill level-80"></span></div>
+          </article>
+
+          <article class="skill-card">
+            <h3>Fk this game</h3>
+            <p>i like it.</p>
+            <div class="bar"><span class="bar-fill level-75"></span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- ===== By the Numbers ===== -->
+    <section id="stats" class="section">
+      <div class="container">
+        <h2 class="section-title"></h2>
+        <p class="section-subtitle"></p>
+
+        <div class="stats-wrap">
+
+          <!-- Counters -->
+          <dl class="stats">
+            <div class="stat">
+              <dt>Games in rotation</dt>
+              <dd>2</dd>
+            </div>
+            <div class="stat">
+              <dt>Hours of sleep, daily</dt>
+              <dd>12</dd>
+            </div>
+            <div class="stat">
+              <dt>Rage quits this month</dt>
+              <dd>24</dd>
+            </div>
+            <div class="stat">
+              <dt>Times it wasn't my fault</dt>
+              <dd>100%</dd>
+            </div>
+          </dl>
+
+          <!-- Donut chart -->
+        <figure class="donut-figure">
+            <div class="donut">
+              <svg viewBox="0 0 36 36" role="img" aria-labelledby="donut-title">
+                <title id="donut-title">Donut chart of a typical day: sleeping 40%, gaming 30%, doomscrolling 30%</title>
+                <circle class="donut-ring" cx="18" cy="18" r="15.9155"></circle>
+                <circle class="donut-seg seg-1" cx="18" cy="18" r="15.9155" stroke-dasharray="39.6 60.4" stroke-dashoffset="0"></circle>
+                <circle class="donut-seg seg-2" cx="18" cy="18" r="15.9155" stroke-dasharray="29.6 70.4" stroke-dashoffset="-40"></circle>
+                <circle class="donut-seg seg-3" cx="18" cy="18" r="15.9155" stroke-dasharray="29.6 70.4" stroke-dashoffset="-70"></circle>
+              </svg>
+              <div class="donut-center">
+                <strong>24h</strong>
+                <span>Typical day</span>
+              </div>
+            </div>
+
+            <ul class="legend">
+              <li><span class="swatch swatch-1"></span><span class="legend-label">Sleeping</span><span class="legend-value">40%</span></li>
+              <li><span class="swatch swatch-2"></span><span class="legend-label">Gaming</span><span class="legend-value">30%</span></li>
+              <li><span class="swatch swatch-3"></span><span class="legend-label">Doomscrolling</span><span class="legend-value">30%</span></li>
+            </ul>
+
+            <figcaption>Time distribution of a typical day.</figcaption>
+          </figure>
+
+        </div>
+      </div>
+    </section>
+    <!-- ===== Contact Me ===== -->
+    <section id="contact" class="section">
+      <div class="container contact-box">
+        <h2 class="section-title">Contact Me</h2>
+        <p class="section-subtitle">Have a question or want to play together? Reach out!</p>
+
+        <address class="contact-list">
+          <a href="#" class="contact-link">
+            <strong>Instagram</strong>
+            <span>you probably clicked the link form this.</span>
+          </a>
+        </address>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <p>&copy; 2026 jj.</p>
+  </footer>
+
 </body>
 </html>

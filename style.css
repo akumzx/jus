@@ -1,0 +1,1019 @@
+/* ==========================================================
+   1. Fonts, Variables & Reset
+   ========================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap");
+
+:root {
+  /* Colors */
+  --bg: #ffffff;
+  --bg-alt: #f7f7f7;
+  --text: #111111;
+  --text-light: #777777;
+  --border: #e5e5e5;
+
+  /* Chart shades (black to light gray) */
+  --g1: #111111;
+  --g2: #555555;
+  --g3: #999999;
+  --g4: #cccccc;
+
+  /* Typography. Change the weights to make the whole site thinner or bolder */
+  --font: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fw-display: 300;  /* big headlines */
+  --fw-heading: 400;  /* small headings */
+  --fw-body: 400;     /* paragraphs */
+  --fw-label: 500;    /* nav, buttons, small caps labels */
+  --fw-strong: 600;   /* bold emphasis */
+
+  /* Layout & motion */
+  --max-width: 1200px;
+  --gutter: 2rem;
+  --header-height: 64px;
+  --transition: 0.3s ease;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --lift: 0 14px 30px rgba(0, 0, 0, 0.08);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+}
+
+body {
+  font-family: var(--font);
+  font-weight: var(--fw-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+ul { list-style: none; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+strong { font-weight: var(--fw-strong); }
+
+::selection {
+  background: var(--text);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 1px solid var(--text);
+  outline-offset: 3px;
+}
+
+/* ==========================================================
+   2. Layout Helpers
+   ========================================================== */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section {
+  padding: 7rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.section-alt {
+  background: var(--bg-alt);
+}
+
+/* Editorial two-column layout:
+   title + subtitle on the left, content on the right */
+.section > .container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: auto 1fr;
+  column-gap: 3rem;
+}
+
+.section-title {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: var(--fw-display);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.section-subtitle {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: start;
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.section > .container > :not(.section-title):not(.section-subtitle) {
+  grid-column: 2;
+  grid-row: 1 / 3;
+}
+
+/* Small uppercase label style, reused by several components below */
+.nav-links a,
+.btn,
+.tag,
+.facts li strong,
+.stat dt,
+.donut-center span,
+.site-footer {
+  font-weight: var(--fw-label);
+  text-transform: uppercase;
+}
+
+/* ==========================================================
+   3. Header & Navigation
+   ========================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--header-height);
+  gap: 1rem;
+}
+
+/* The logo link is empty in the HTML, so the mark is drawn here */
+.logo::before {
+  content: "JJ";
+  font-size: 1.05rem;
+  font-weight: var(--fw-strong);
+  letter-spacing: 0.2em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  position: relative;
+  padding: 0.3rem 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--text-light);
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition);
+}
+
+/* Underline that draws in from the left on hover */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px 0;
+  height: 1px;
+  background: var(--text);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s var(--ease);
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  color: var(--text);
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ==========================================================
+   4. Buttons
+   ========================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.95rem 2.1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  border: 1px solid var(--text);
+  border-radius: 0;
+  transition: background var(--transition), color var(--transition),
+              transform 0.3s var(--ease);
+}
+
+/* Arrow that slides on hover */
+.btn::after {
+  content: "\2192";
+  transition: transform 0.3s var(--ease);
+}
+
+.btn:hover::after,
+.btn:focus-visible::after {
+  transform: translateX(5px);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.btn-outline {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Both buttons simply swap colors on hover */
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* ==========================================================
+   5. Hero
+   ========================================================== */
+.hero {
+  padding: 9rem 0 7rem;
+}
+
+.hero h1 {
+  font-size: clamp(3.4rem, 12vw, 10rem);
+  font-weight: var(--fw-display);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.highlight {
+  font-weight: inherit;
+  color: var(--text);
+}
+
+.hero-text {
+  max-width: 34ch;
+  margin: 2.5rem 0 3rem;
+  font-size: 1.05rem;
+  color: var(--text-light);
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Staggered load-in */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero h1,
+.hero-text,
+.hero-buttons {
+  animation: rise 0.9s var(--ease) both;
+}
+
+.hero h1      { animation-delay: 0.1s; }
+.hero-text    { animation-delay: 0.25s; }
+.hero-buttons { animation-delay: 0.4s; }
+
+/* ==========================================================
+   6. About Me
+   ========================================================== */
+.about-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.avatar {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* Photos (About Me + What I Do): grayscale, color on hover */
+.avatar img,
+.icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: transform 0.6s var(--ease), filter 0.6s ease;
+}
+
+.avatar img {
+  filter: grayscale(100%) contrast(1.05);
+}
+
+.avatar:hover img {
+  transform: scale(1.03);
+}
+
+.about-text h3 {
+  margin-bottom: 1.2rem;
+  font-size: 1.8rem;
+  font-weight: var(--fw-display);
+  line-height: 1.3;
+}
+
+.about-text p {
+  max-width: 60ch;
+  margin-bottom: 1rem;
+  color: var(--text-light);
+}
+
+.about-text p strong {
+  color: var(--text);
+}
+
+.facts {
+  margin-top: 2rem;
+}
+
+.facts li {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+}
+
+.facts li:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.facts li strong {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--text);
+}
+
+/* ==========================================================
+   7. What I Do
+   ========================================================== */
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2.5rem;
+  counter-reset: activity;
+}
+
+.activity-item {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--text);
+  transition: transform 0.4s var(--ease), box-shadow 0.3s ease;
+}
+
+.activity-item::before {
+  counter-increment: activity;
+  content: counter(activity, decimal-leading-zero);
+  display: block;
+  margin-bottom: 1.5rem;
+  font-size: 0.75rem;
+  font-weight: var(--fw-label);
+  letter-spacing: 0.14em;
+  color: var(--text-light);
+}
+
+.icon {
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.activity-item:hover .icon img {
+  transform: scale(1.08);
+}
+
+.activity-item h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: var(--fw-heading);
+}
+
+.activity-item p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* ==========================================================
+   8. Projects
+   ========================================================== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  counter-reset: project;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s ease,
+              border-color var(--transition);
+}
+
+.project-card::before {
+  counter-increment: project;
+  content: counter(project, decimal-leading-zero);
+  font-size: 0.75rem;
+  font-weight: var(--fw-label);
+  letter-spacing: 0.14em;
+  color: var(--text-light);
+  transition: color var(--transition);
+}
+
+.project-card:hover {
+  border-color: var(--text);
+}
+
+.project-card:hover::before {
+  color: var(--text);
+}
+
+.tag {
+  align-self: flex-start;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  border: 1px solid var(--text);
+  transition: color var(--transition), background var(--transition);
+}
+
+.project-card:hover .tag {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.project-card h3 {
+  font-size: 1.5rem;
+  font-weight: var(--fw-display);
+  line-height: 1.2;
+}
+
+.project-card p {
+  flex-grow: 1;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding-top: 1rem;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+}
+
+.tech-list li + li::before {
+  content: "/";
+  margin-right: 0.4rem;
+}
+
+/* ==========================================================
+   9. Skills (CSS-only bar chart)
+   ========================================================== */
+/* The subtitle is empty in the HTML, so the data note is added here */
+#skills .section-subtitle::after {
+  content: "Sample data. Not real measurements.";
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.5rem 3rem;
+}
+
+.skill-card {
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--text);
+  transition: transform 0.4s var(--ease), box-shadow 0.3s ease;
+}
+
+.skill-card h3 {
+  font-size: 1.15rem;
+  font-weight: var(--fw-heading);
+}
+
+.skill-card p {
+  margin-bottom: 1.4rem;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+/* Track with thin gray gridlines at 0 / 25 / 50 / 75 / 100 */
+.bar {
+  position: relative;
+  height: 10px;
+  margin-bottom: 1.6rem;
+  background-color: var(--bg);
+  background-image: linear-gradient(to right, var(--border) 1px, transparent 1px);
+  background-size: 25% 100%;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.bar-fill {
+  position: relative;
+  display: block;
+  height: 100%;
+  background: var(--text);
+  animation: grow 1s ease both;
+}
+
+@keyframes grow {
+  from { width: 0; }
+}
+
+/* Small value label under the end of each bar */
+.bar-fill::after {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  font-size: 0.72rem;
+  font-weight: var(--fw-label);
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+}
+
+.level-90 { width: 90%; }
+.level-85 { width: 85%; }
+.level-80 { width: 80%; }
+.level-75 { width: 75%; }
+.level-70 { width: 70%; }
+.level-65 { width: 65%; }
+
+.level-90::after { content: "90"; }
+.level-85::after { content: "85"; }
+.level-80::after { content: "80"; }
+.level-75::after { content: "75"; }
+.level-70::after { content: "70"; }
+.level-65::after { content: "65"; }
+
+/* ==========================================================
+   10. By the Numbers (counters + donut chart)
+   ========================================================== */
+.stats-wrap {
+  display: grid;
+  gap: 4rem;
+}
+
+/* Counters */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse; /* number on top, label below */
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--text);
+  transition: transform 0.4s var(--ease), box-shadow 0.3s ease;
+}
+
+.stat dd {
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: var(--fw-display);
+  line-height: 1;
+  transition: transform 0.4s var(--ease);
+}
+
+.stat dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--text-light);
+}
+
+/* Donut chart */
+.donut-figure {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  align-items: center;
+  gap: 1.5rem 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.donut {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 1 / 1;
+}
+
+.donut svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* start at 12 o'clock */
+}
+
+.donut-ring,
+.donut-seg {
+  fill: none;
+  stroke-width: 3;
+}
+
+.donut-ring {
+  stroke: var(--border);
+}
+
+.donut-seg {
+  cursor: pointer;
+  transition: stroke-width 0.3s ease, opacity 0.3s ease;
+}
+
+.seg-1 { stroke: var(--g1); }
+.seg-2 { stroke: var(--g2); }
+.seg-3 { stroke: var(--g3); }
+.seg-4 { stroke: var(--g4); }
+
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.donut-center strong {
+  font-size: 2.2rem;
+  font-weight: var(--fw-display);
+  line-height: 1.1;
+}
+
+.donut-center span {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--text-light);
+}
+
+/* Hover: dim everything, then highlight the one being hovered.
+   Works from the segment itself or from its legend row (matched by order). */
+.donut:has(.donut-seg:hover) .donut-seg:not(:hover),
+.donut-figure:has(.legend li:hover) .donut-seg {
+  opacity: 0.2;
+}
+
+.donut-seg:hover,
+.donut-figure:has(.legend li:nth-child(1):hover) .seg-1,
+.donut-figure:has(.legend li:nth-child(2):hover) .seg-2,
+.donut-figure:has(.legend li:nth-child(3):hover) .seg-3,
+.donut-figure:has(.legend li:nth-child(4):hover) .seg-4 {
+  opacity: 1;
+  stroke-width: 4;
+}
+
+/* Legend */
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border);
+  transition: padding 0.3s var(--ease), background 0.3s ease;
+}
+
+.legend li:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.legend li:hover {
+  padding-left: 0.75rem;
+  background: var(--bg-alt);
+}
+
+.legend li:hover .legend-value {
+  color: var(--text);
+}
+
+.swatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+}
+
+.swatch-1 { background: var(--g1); }
+.swatch-2 { background: var(--g2); }
+.swatch-3 { background: var(--g3); }
+.swatch-4 { background: var(--g4); }
+
+.legend-label {
+  flex: 1;
+}
+
+.legend-value {
+  font-weight: var(--fw-label);
+  color: var(--text-light);
+  transition: color var(--transition);
+}
+
+.donut-figure figcaption {
+  grid-column: 1 / -1;
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+/* ==========================================================
+   11. Contact
+   ========================================================== */
+.contact-list {
+  font-style: normal;
+}
+
+.contact-link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--border);
+  transition: padding var(--transition), background var(--transition);
+}
+
+.contact-link strong {
+  font-size: clamp(1.5rem, 3vw, 2.3rem);
+  font-weight: var(--fw-display);
+  letter-spacing: 0.01em;
+}
+
+.contact-link span {
+  margin-left: auto;
+  font-size: 0.85rem;
+  text-align: right;
+  color: var(--text-light);
+  overflow-wrap: anywhere;
+}
+
+.contact-link::after {
+  content: "\2197";
+  font-size: 1.1rem;
+  transition: transform var(--transition);
+}
+
+.contact-link:hover,
+.contact-link:focus-visible {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background: var(--bg-alt);
+}
+
+.contact-link:hover::after {
+  transform: translate(3px, -3px);
+}
+
+/* ==========================================================
+   12. Footer
+   ========================================================== */
+.site-footer {
+  padding: 2rem max(var(--gutter), calc((100% - var(--max-width)) / 2 + var(--gutter)));
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+}
+
+/* ==========================================================
+   13. Hover effects (mouse devices only, so touch screens
+       never get stuck hover states)
+   ========================================================== */
+@media (hover: hover) {
+
+  /* Photos fade to color */
+  .avatar:hover img,
+  .activity-item:hover .icon img {
+    filter: grayscale(0) contrast(1);
+  }
+
+  /* Project cards lift */
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--lift);
+  }
+
+  /* What I Do, Skills, Counters: thick top rule + small movement */
+  .activity-item:hover,
+  .skill-card:hover,
+  .stat:hover {
+    box-shadow: inset 0 3px 0 var(--text);
+  }
+
+  .activity-item:hover { transform: translateY(-6px); }
+  .skill-card:hover    { transform: translateX(8px); }
+  .stat:hover dd       { transform: translateX(8px); }
+}
+
+/* ==========================================================
+   14. Scroll-driven effects
+   Supported by current Chrome, Edge and Safari. Other browsers
+   skip this block and show the page without scroll effects.
+   ========================================================== */
+@supports (animation-timeline: view()) {
+
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(36px); }
+  }
+
+  @keyframes progress {
+    to { transform: scaleX(1); }
+  }
+
+  @keyframes headerShadow {
+    to { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); }
+  }
+
+  @keyframes heroOut {
+    to { opacity: 0; transform: translateY(-60px); }
+  }
+
+  @keyframes drawSeg {
+    from { stroke-dasharray: 0 100; }
+  }
+
+  /* Reading progress line at the top of the page */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 200;
+    height: 2px;
+    background: var(--text);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: progress linear both;
+    animation-timeline: scroll(root);
+  }
+
+  /* Header gains a soft shadow once you scroll */
+  .site-header {
+    animation: headerShadow linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0px 120px;
+  }
+
+  /* Hero drifts up and fades as you leave it */
+  .hero-content {
+    animation: heroOut linear both;
+    animation-timeline: view();
+    animation-range: exit 0% exit 80%;
+  }
+
+  /* Section titles and content fade up as they enter */
+  .section > .container > * {
+    animation: reveal linear backwards;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
+
+  /* Skill bars grow as you scroll to them */
+  .bar-fill {
+    animation: grow linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 25%;
+  }
+
+  /* Donut segments draw one after another */
+  .donut {
+    view-timeline: --donut block;
+  }
+
+  .donut-seg {
+    animation: drawSeg linear both;
+    animation-timeline: --donut;
+  }
+
+  .seg-1 { animation-range: entry 0% entry 60%; }
+  .seg-2 { animation-range: entry 20% entry 80%; }
+  .seg-3 { animation-range: entry 40% entry 100%; }
+  .seg-4 { animation-range: entry 55% entry 100%; }
+}
+
+/* ==========================================================
+   15. Responsive Design (keep last)
+   ========================================================== */
+@media (max-width: 900px) {
+  .section {
+    padding: 5rem 0;
+  }
+
+  /* Stack title above content */
+  .section > .container {
+    display: block;
+  }
+
+  .section-subtitle {
+    margin-bottom: 2.5rem;
+  }
+
+  .hero {
+    padding: 6rem 0 5rem;
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --gutter: 1.25rem;
+    --header-height: 88px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 1.2rem;
+  }
+
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .avatar {
+    max-width: 220px;
+  }
+
+  .stats-wrap {
+    gap: 3rem;
+  }
+
+  .donut-figure {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .legend {
+    width: 100%;
+  }
+
+  .contact-link {
+    flex-wrap: wrap;
+  }
+
+  .contact-link span {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-buttons .btn {
+    width: 100%;
+  }
+}
