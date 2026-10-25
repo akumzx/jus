@@ -1,5 +1,5 @@
 /* ==========================================================
-   1. Fonts, Variables & Reset
+   1. Variables, Reset & Base
    ========================================================== */
 @import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap");
 
@@ -8,21 +8,22 @@
   --bg: #f5f5f5;
   --bg-alt: #ebebeb;
   --text: #1a1a1a;
-  --text-light: #666666;
+  --text-light: #666;
   --border: #d4d4d4;
+  --line: 1px solid var(--text);
 
   /* Chart shades */
   --g1: #1a1a1a;
-  --g2: #555555;
-  --g3: #999999;
-  --g4: #cccccc;
+  --g2: #555;
+  --g3: #999;
+  --g4: #ccc;
 
   /* Typography */
   --font: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --fw-display: 600;  /* giant headlines */
-  --fw-heading: 600;  /* small headings */
-  --fw-body: 500;     /* paragraphs */
-  --fw-label: 500;    /* small uppercase labels */
+  --fw-display: 600;
+  --fw-heading: 600;
+  --fw-body: 500;
+  --fw-label: 500;
   --fw-strong: 700;
 
   /* Layout & motion */
@@ -33,20 +34,24 @@
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
 }
 
 body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
   font-family: var(--font);
   font-weight: var(--fw-body);
   font-size: 1rem;
@@ -60,18 +65,12 @@ body {
 
 ul { list-style: none; }
 a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
+img { display: block; }
+img, svg, video, canvas { max-width: 100%; }
 strong { font-weight: var(--fw-strong); }
 
-::selection {
-  background: var(--text);
-  color: var(--bg);
-}
-
-:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 3px;
-}
+::selection { background: var(--text); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
 
 /* Small uppercase label style, reused everywhere */
 .nav-links a,
@@ -92,7 +91,7 @@ strong { font-weight: var(--fw-strong); }
 }
 
 /* ==========================================================
-   2. Layout Helpers (4-column grid)
+   2. Layout helpers (4-column grid)
    ========================================================== */
 .container {
   width: 100%;
@@ -100,31 +99,26 @@ strong { font-weight: var(--fw-strong); }
 }
 
 .section {
-  padding-bottom: 7rem;
-  border-top: 1px solid var(--text);
-}
-
-.section-alt {
-  background: var(--bg-alt);
-}
-
-/* Section index label: "/01 ABOUT" (drawn by CSS) */
-.section {
   counter-increment: section;
+  padding-bottom: 7rem;
+  border-top: var(--line);
 }
 
+.section-alt { background: var(--bg-alt); }
+
+/* Section index label, drawn by CSS */
 .section::before {
-  content: "/" counter(section, decimal-leading-zero) "  " var(--label, "");
+  content: var(--label, "");
   display: block;
   padding: 0.9rem var(--gutter) 2.5rem;
 }
 
-#about    { --label: "About"; }
-#what-i-do{ --label: "What I do"; }
-#projects { --label: "Games"; }
-#skills   { --label: "Skills"; }
-#stats    { --label: "Numbers"; }
-#contact  { --label: "Contact"; }
+#about     { --label: "About"; }
+#what-i-do { --label: "What I do"; }
+#projects  { --label: "Games"; }
+#skills    { --label: "Skills"; }
+#stats     { --label: "Numbers"; }
+#contact   { --label: "Contact"; }
 
 .section > .container {
   display: grid;
@@ -134,15 +128,14 @@ strong { font-weight: var(--fw-strong); }
   row-gap: 2.5rem;
 }
 
-/* Giant headline across the full width */
 .section-title {
   grid-column: 1 / -1;
   grid-row: 1;
+  margin-left: -0.04em;
   font-size: clamp(3.2rem, 11vw, 11rem);
   font-weight: var(--fw-display);
   line-height: 0.85;
   letter-spacing: -0.055em;
-  margin-left: -0.04em;
 }
 
 .section-subtitle {
@@ -158,15 +151,24 @@ strong { font-weight: var(--fw-strong); }
   grid-row: 2;
 }
 
+/* Shared card look: top rule + padding */
+.activity-item,
+.skill-card,
+.stat {
+  padding-top: 0.8rem;
+  border-top: var(--line);
+}
+
 /* ==========================================================
-   3. Header & Navigation (thin top bar)
+   3. Header & navigation
    ========================================================== */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
+  padding-top: env(safe-area-inset-top, 0px);
   background: var(--bg);
-  border-bottom: 1px solid var(--text);
+  border-bottom: var(--line);
 }
 
 .navbar {
@@ -177,16 +179,15 @@ strong { font-weight: var(--fw-strong); }
   gap: 1rem;
 }
 
-/* The logo link is empty in the HTML, so the mark is drawn here */
-.logo::before {
-  content: "JJ";
-}
+.logo::before { content: "JJ"; }
 
 .nav-links {
   display: flex;
   gap: 2.5rem;
   counter-reset: nav;
 }
+
+.nav-links li { counter-increment: nav; }
 
 .nav-links a {
   position: relative;
@@ -196,17 +197,12 @@ strong { font-weight: var(--fw-strong); }
   color: var(--text);
 }
 
-/* Page numbers: /01 /02 ... */
-.nav-links li {
-  counter-increment: nav;
-}
-
 .nav-links a::before {
   content: "/" counter(nav, decimal-leading-zero);
   color: var(--text-light);
 }
 
-/* Underline draws in from the left on hover */
+/* Underline draws in from the left */
 .nav-links a::after {
   content: "";
   position: absolute;
@@ -226,7 +222,7 @@ strong { font-weight: var(--fw-strong); }
 }
 
 /* ==========================================================
-   4. Buttons (big text links with an arrow)
+   4. Buttons
    ========================================================== */
 .btn {
   display: inline-flex;
@@ -247,26 +243,20 @@ strong { font-weight: var(--fw-strong); }
 }
 
 .btn:hover,
-.btn:focus-visible {
-  border-bottom-color: var(--text);
-}
+.btn:focus-visible { border-bottom-color: var(--text); }
 
 .btn:hover::after,
-.btn:focus-visible::after {
-  transform: translate(4px, 4px);
-}
+.btn:focus-visible::after { transform: translate(4px, 4px); }
 
-.btn:active {
-  opacity: 0.6;
-}
+.btn:active { opacity: 0.6; }
 
 /* ==========================================================
    5. Hero
    ========================================================== */
 .hero {
   position: relative;
-  min-height: calc(100svh - var(--header-height));
   display: flex;
+  min-height: calc(100svh - var(--header-height));
 }
 
 .hero-content {
@@ -282,16 +272,14 @@ strong { font-weight: var(--fw-strong); }
 .hero h1 {
   grid-column: 1 / -1;
   grid-row: 1;
+  margin-left: -0.05em;
   font-size: clamp(4rem, 16vw, 18rem);
   font-weight: var(--fw-display);
   line-height: 0.82;
   letter-spacing: -0.065em;
-  margin-left: -0.05em;
 }
 
-.highlight {
-  font-weight: inherit;
-}
+.highlight { font-weight: inherit; }
 
 /* Small info row under the headline */
 .hero-content::before {
@@ -326,12 +314,11 @@ strong { font-weight: var(--fw-strong); }
   flex-wrap: wrap;
   align-items: baseline;
   gap: 1rem 3rem;
-  padding-top: 1rem;
-  border-bottom: 1px solid var(--text);
-  padding-bottom: 1.2rem;
+  padding: 1rem 0 1.2rem;
+  border-bottom: var(--line);
 }
 
-/* Striped graphic: simple thin lines */
+/* Striped graphic */
 .hero::before {
   content: "";
   position: absolute;
@@ -339,15 +326,13 @@ strong { font-weight: var(--fw-strong); }
   top: 48%;
   bottom: 1.5rem;
   width: calc((100% - 2 * var(--gutter) - 3 * var(--gap)) / 4);
-  background: repeating-linear-gradient(to bottom, var(--text) 0 2px, transparent 2px 10px);
+  background: repeating-linear-gradient(to bottom, var(--text) 0 7px, transparent 7px 11px);
   pointer-events: none;
 }
 
-.hero::before {
-  background: repeating-linear-gradient(to bottom, var(--text) 0 7px, transparent 7px 11px);
-}
-
-/* Circle where the stripes invert */
+/* Inverted-stripe circle.
+   NOTE: this rule has no `content`, so the pseudo-element never renders.
+   Left as-is to keep the current look; add content/position to enable it. */
 .hero::after {
   --r: 5.2vw;
   background: repeating-linear-gradient(to bottom, var(--bg) 0 3px, transparent 3px 11px);
@@ -363,16 +348,14 @@ strong { font-weight: var(--fw-strong); }
 
 .hero h1,
 .hero-text,
-.hero-buttons {
-  animation: rise 0.9s var(--ease) both;
-}
+.hero-buttons { animation: rise 0.9s var(--ease) both; }
 
 .hero h1      { animation-delay: 0.1s; }
 .hero-text    { animation-delay: 0.25s; }
 .hero-buttons { animation-delay: 0.4s; }
 
 /* ==========================================================
-   6. About Me
+   6. About
    ========================================================== */
 .about-layout {
   display: grid;
@@ -383,12 +366,12 @@ strong { font-weight: var(--fw-strong); }
 
 .avatar {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
   background: var(--bg-alt);
   overflow: hidden;
 }
 
-/* Photos (About Me + What I Do): grayscale, color on hover */
+/* Photos: grayscale, color on hover */
 .avatar img,
 .icon img {
   width: 100%;
@@ -398,9 +381,7 @@ strong { font-weight: var(--fw-strong); }
   transition: transform 0.6s var(--ease), filter 0.6s ease;
 }
 
-.avatar:hover img {
-  transform: scale(1.03);
-}
+.avatar:hover img { transform: scale(1.03); }
 
 .about-text h3 {
   margin-bottom: 1rem;
@@ -419,24 +400,20 @@ strong { font-weight: var(--fw-strong); }
   letter-spacing: -0.025em;
 }
 
-.facts {
-  margin-top: 2.5rem;
-}
+.facts { margin-top: 2.5rem; }
 
 .facts li {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   padding: 0.8rem 0;
-  border-top: 1px solid var(--text);
+  border-top: var(--line);
 }
 
-.facts li:last-child {
-  border-bottom: 1px solid var(--text);
-}
+.facts li:last-child { border-bottom: var(--line); }
 
 /* ==========================================================
-   7. What I Do
+   7. What I do
    ========================================================== */
 .activity-grid {
   display: grid;
@@ -445,10 +422,14 @@ strong { font-weight: var(--fw-strong); }
   counter-reset: activity;
 }
 
-.activity-item {
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--text);
-  transition: transform 0.4s var(--ease);
+.activity-item { transition: transform 0.4s var(--ease); }
+
+/* Numbered "/01" markers, shared with the game cards */
+.activity-item::before,
+.project-card::before {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--text-light);
 }
 
 .activity-item::before {
@@ -456,24 +437,19 @@ strong { font-weight: var(--fw-strong); }
   content: "/" counter(activity, decimal-leading-zero);
   display: block;
   margin-bottom: 2rem;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  color: var(--text-light);
 }
 
 .icon {
   display: block;
   width: 100%;
   max-width: 160px;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
   margin-bottom: 1.5rem;
   background: var(--bg-alt);
   overflow: hidden;
 }
 
-.activity-item:hover .icon img {
-  transform: scale(1.08);
-}
+.activity-item:hover .icon img { transform: scale(1.08); }
 
 .activity-item h3 {
   margin-bottom: 0.5rem;
@@ -483,10 +459,7 @@ strong { font-weight: var(--fw-strong); }
   letter-spacing: -0.045em;
 }
 
-.activity-item p {
-  font-size: 1rem;
-  color: var(--text-light);
-}
+.activity-item p { color: var(--text-light); }
 
 /* ==========================================================
    8. Games (project cards)
@@ -504,16 +477,13 @@ strong { font-weight: var(--fw-strong); }
   gap: 1rem;
   min-height: 340px;
   padding: 0.8rem;
-  border-top: 1px solid var(--text);
+  border-top: var(--line);
   transition: background var(--transition), color var(--transition);
 }
 
 .project-card::before {
   counter-increment: project;
   content: "/" counter(project, decimal-leading-zero);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  color: var(--text-light);
   transition: color var(--transition);
 }
 
@@ -548,18 +518,12 @@ strong { font-weight: var(--fw-strong); }
   border-top: 1px solid currentColor;
 }
 
-.tech-list li + li::before {
-  content: "/";
-  margin-right: 0.4rem;
-}
+.tech-list li + li::before { content: "/"; margin-right: 0.4rem; }
 
 /* ==========================================================
    9. Skills (bar chart)
    ========================================================== */
-/* The subtitle is empty in the HTML, so the data note is added here */
-#skills .section-subtitle::after {
-  content: "Sample data. Not real measurements.";
-}
+#skills .section-subtitle::after { content: "Sample data. Not real measurements."; }
 
 .skills-grid {
   display: grid;
@@ -567,11 +531,7 @@ strong { font-weight: var(--fw-strong); }
   gap: 3rem var(--gap);
 }
 
-.skill-card {
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--text);
-  transition: transform 0.4s var(--ease);
-}
+.skill-card { transition: transform 0.4s var(--ease); }
 
 .skill-card h3 {
   font-size: 1.6rem;
@@ -585,7 +545,7 @@ strong { font-weight: var(--fw-strong); }
   color: var(--text-light);
 }
 
-/* Track with thin gridlines at 0 / 25 / 50 / 75 / 100 */
+/* Track with gridlines at 0 / 25 / 50 / 75 / 100 */
 .bar {
   position: relative;
   height: 14px;
@@ -604,9 +564,7 @@ strong { font-weight: var(--fw-strong); }
   animation: grow 1s ease both;
 }
 
-@keyframes grow {
-  from { width: 0; }
-}
+@keyframes grow { from { width: 0; } }
 
 /* Value label under the end of each bar */
 .bar-fill::after {
@@ -617,27 +575,17 @@ strong { font-weight: var(--fw-strong); }
   font-weight: var(--fw-label);
 }
 
-.level-90 { width: 90%; }
-.level-85 { width: 85%; }
-.level-80 { width: 80%; }
-.level-75 { width: 75%; }
-.level-70 { width: 70%; }
-.level-65 { width: 65%; }
-
-.level-90::after { content: "90"; }
-.level-85::after { content: "85"; }
-.level-80::after { content: "80"; }
-.level-75::after { content: "75"; }
-.level-70::after { content: "70"; }
-.level-65::after { content: "65"; }
+.level-90 { width: 90%; } .level-90::after { content: "90"; }
+.level-85 { width: 85%; } .level-85::after { content: "85"; }
+.level-80 { width: 80%; } .level-80::after { content: "80"; }
+.level-75 { width: 75%; } .level-75::after { content: "75"; }
+.level-70 { width: 70%; } .level-70::after { content: "70"; }
+.level-65 { width: 65%; } .level-65::after { content: "65"; }
 
 /* ==========================================================
-   10. By the Numbers (counters + donut chart)
+   10. Stats & donut chart
    ========================================================== */
-.stats-wrap {
-  display: grid;
-  gap: 4rem;
-}
+.stats-wrap { display: grid; gap: 4rem; }
 
 .stats {
   display: grid;
@@ -650,8 +598,6 @@ strong { font-weight: var(--fw-strong); }
   flex-direction: column-reverse; /* number on top, label below */
   justify-content: flex-end;
   gap: 0.8rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--text);
 }
 
 .stat dd {
@@ -662,25 +608,22 @@ strong { font-weight: var(--fw-strong); }
   transition: transform 0.4s var(--ease);
 }
 
-.stat dt {
-  color: var(--text-light);
-}
+.stat dt { color: var(--text-light); }
 
-/* Donut chart */
 .donut-figure {
   display: grid;
   grid-template-columns: 240px 1fr;
   align-items: center;
   gap: 1.5rem 3.5rem;
   padding-top: 2.5rem;
-  border-top: 1px solid var(--text);
+  border-top: var(--line);
 }
 
 .donut {
   position: relative;
   width: 100%;
   max-width: 240px;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1;
 }
 
 .donut svg {
@@ -691,14 +634,9 @@ strong { font-weight: var(--fw-strong); }
 }
 
 .donut-ring,
-.donut-seg {
-  fill: none;
-  stroke-width: 3;
-}
+.donut-seg { fill: none; stroke-width: 3; }
 
-.donut-ring {
-  stroke: var(--border);
-}
+.donut-ring { stroke: var(--border); }
 
 .donut-seg {
   cursor: pointer;
@@ -726,16 +664,11 @@ strong { font-weight: var(--fw-strong); }
   letter-spacing: -0.05em;
 }
 
-.donut-center span {
-  color: var(--text-light);
-}
+.donut-center span { color: var(--text-light); }
 
-/* Hover: dim everything, highlight the one hovered.
-   Works from the segment or from its legend row (matched by order). */
+/* Hover: dim everything, highlight one (from segment or legend row) */
 .donut:has(.donut-seg:hover) .donut-seg:not(:hover),
-.donut-figure:has(.legend li:hover) .donut-seg {
-  opacity: 0.2;
-}
+.donut-figure:has(.legend li:hover) .donut-seg { opacity: 0.2; }
 
 .donut-seg:hover,
 .donut-figure:has(.legend li:nth-child(1):hover) .seg-1,
@@ -746,7 +679,6 @@ strong { font-weight: var(--fw-strong); }
   stroke-width: 4;
 }
 
-/* Legend */
 .legend li {
   display: flex;
   align-items: center;
@@ -754,35 +686,21 @@ strong { font-weight: var(--fw-strong); }
   padding: 0.9rem 0;
   font-size: 1.1rem;
   font-weight: var(--fw-heading);
-  border-top: 1px solid var(--text);
+  border-top: var(--line);
   transition: padding 0.3s var(--ease), background 0.3s ease;
 }
 
-.legend li:last-child {
-  border-bottom: 1px solid var(--text);
-}
+.legend li:last-child { border-bottom: var(--line); }
+.legend li:hover { padding-left: 0.75rem; background: var(--bg-alt); }
 
-.legend li:hover {
-  padding-left: 0.75rem;
-  background: var(--bg-alt);
-}
-
-.swatch {
-  flex: none;
-  width: 10px;
-  height: 10px;
-}
-
+.swatch { flex: none; width: 10px; height: 10px; }
 .swatch-1 { background: var(--g1); }
 .swatch-2 { background: var(--g2); }
 .swatch-3 { background: var(--g3); }
 .swatch-4 { background: var(--g4); }
 
 .legend-label { flex: 1; }
-
-.legend-value {
-  color: var(--text-light);
-}
+.legend-value { color: var(--text-light); }
 
 .donut-figure figcaption {
   grid-column: 1 / -1;
@@ -791,11 +709,9 @@ strong { font-weight: var(--fw-strong); }
 }
 
 /* ==========================================================
-   11. Contact
+   11. Contact & footer
    ========================================================== */
-.contact-list {
-  font-style: normal;
-}
+.contact-list { font-style: normal; }
 
 .contact-link {
   display: flex;
@@ -803,8 +719,8 @@ strong { font-weight: var(--fw-strong); }
   justify-content: space-between;
   gap: 1.5rem;
   padding: 1.5rem 0;
-  border-top: 1px solid var(--text);
-  border-bottom: 1px solid var(--text);
+  border-top: var(--line);
+  border-bottom: var(--line);
   transition: padding var(--transition), background var(--transition), color var(--transition);
 }
 
@@ -831,26 +747,20 @@ strong { font-weight: var(--fw-strong); }
 
 .contact-link:hover,
 .contact-link:focus-visible {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-inline: 1rem;
   background: var(--text);
   color: var(--bg);
 }
 
-.contact-link:hover::after {
-  transform: translate(4px, -4px);
-}
+.contact-link:hover::after { transform: translate(4px, -4px); }
 
-/* ==========================================================
-   12. Footer
-   ========================================================== */
 .site-footer {
-  padding: 1rem var(--gutter);
-  border-top: 1px solid var(--text);
+  padding: 1rem var(--gutter) calc(1rem + env(safe-area-inset-bottom, 0px));
+  border-top: var(--line);
 }
 
 /* ==========================================================
-   13. Back to top (button is created by script.js)
+   12. Back to top (button is created by script.js)
    ========================================================== */
 .back-to-top {
   position: fixed;
@@ -873,38 +783,229 @@ strong { font-weight: var(--fw-strong); }
               color var(--transition);
 }
 
-.back-to-top.is-visible {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-}
+.back-to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
 
 .back-to-top:hover,
-.back-to-top:focus-visible {
-  background: var(--bg);
-  color: var(--text);
+.back-to-top:focus-visible { background: var(--bg); color: var(--text); }
+
+/* ==========================================================
+   13. Music player (movable, resizable, collapsible)
+   --ps is the scale factor (width / 220), set by script.js
+   ========================================================== */
+.music-player {
+  --ps: 1;
+  position: fixed;
+  right: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  z-index: 9999;
+  width: 220px;
+  min-width: 150px;
+  max-width: calc(100vw - 24px);
+  padding: calc(12px * var(--ps));
+  font-family: var(--font, Arial, sans-serif);
+  color: #111;
+  background: #fff;
+  border: 1px solid #111;
+  box-shadow: calc(4px * var(--ps)) calc(4px * var(--ps)) 0 #111;
+}
+
+.music-player *,
+.music-player *::before,
+.music-player *::after { box-sizing: border-box; }
+
+/* Header = drag handle */
+.music-player__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ddd;
+  font-size: calc(9px * var(--ps));
+  letter-spacing: 0.04em;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.music-player__header:active { cursor: grabbing; }
+
+.music-player__min {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1;
+  color: #111;
+  background: transparent;
+  border: 1px solid #111;
+  cursor: pointer;
+}
+
+.music-player__min:hover { color: #fff; background: #111; }
+
+/* Artwork */
+.music-player__artwork {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  margin: 10px 0;
+  overflow: hidden;
+  color: #fff;
+  background: #111;
+}
+
+.music-player__artwork img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+.music-player__artwork-text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: calc(70px * var(--ps));
+  font-weight: 800;
+  letter-spacing: -0.12em;
+  pointer-events: none;
+}
+
+.music-player__artwork-caption {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-size: calc(8px * var(--ps));
+  letter-spacing: 0.12em;
+  pointer-events: none;
+}
+
+/* Track info + play button */
+.music-player__details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.music-player__title {
+  font-size: calc(11px * var(--ps));
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.music-player__artist {
+  margin-top: 3px;
+  font-size: calc(9px * var(--ps));
+  color: #666;
+  letter-spacing: 0.08em;
+}
+
+.music-player__toggle {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: calc(32px * var(--ps));
+  height: calc(32px * var(--ps));
+  min-width: 28px;
+  min-height: 28px;
+  color: #fff;
+  background: #111;
+  border: 1px solid #111;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.music-player__toggle:hover { color: #111; background: #fff; }
+
+/* Progress, time, volume */
+.music-player__progress,
+.music-player__volume {
+  accent-color: #111;
+  cursor: pointer;
+}
+
+.music-player__progress {
+  display: block;
+  width: 100%;
+  height: 12px;
+  margin-top: 12px;
+}
+
+.music-player__volume { width: 100%; min-width: 0; }
+
+.music-player__time {
+  display: flex;
+  justify-content: space-between;
+  font-size: calc(9px * var(--ps));
+  color: #666;
+}
+
+.music-player__volume-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #ddd;
+}
+
+.music-player__volume-row label {
+  font-size: calc(8px * var(--ps));
+  letter-spacing: 0.08em;
+}
+
+/* Resize grip (created by JS) */
+.music-player__resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+  touch-action: none;
+  background: linear-gradient(135deg,
+    transparent 0 50%, #111 50% 56%,
+    transparent 56% 70%, #111 70% 76%,
+    transparent 76%);
+}
+
+.music-player__resize:focus-visible { outline: 2px solid #111; outline-offset: -2px; }
+
+/* Collapsed: only the header bar stays */
+.music-player.is-collapsed {
+  width: 170px !important;
+  min-width: 0;
+  padding: 8px 10px;
+}
+
+.music-player.is-collapsed > :not(.music-player__header) { display: none; }
+
+.music-player.is-collapsed .music-player__header {
+  padding-bottom: 0;
+  border-bottom: 0;
+  font-size: 9px;
 }
 
 /* ==========================================================
    14. Hover effects (mouse devices only)
    ========================================================== */
 @media (hover: hover) {
-
   .avatar:hover img,
-  .activity-item:hover .icon img {
-    filter: grayscale(0) contrast(1);
-  }
+  .activity-item:hover .icon img { filter: grayscale(0) contrast(1); }
 
-  /* Game cards flip to black */
-  .project-card:hover {
-    background: var(--text);
-    color: var(--bg);
-  }
+  .project-card:hover { background: var(--text); color: var(--bg); }
 
   .project-card:hover::before,
-  .project-card:hover p {
-    color: #aaaaaa;
-  }
+  .project-card:hover p { color: #aaa; }
 
   .activity-item:hover { transform: translateY(-6px); }
   .skill-card:hover    { transform: translateX(8px); }
@@ -912,25 +1013,14 @@ strong { font-weight: var(--fw-strong); }
 }
 
 /* ==========================================================
-   15. Scroll-driven effects
-   Supported by current Chrome, Edge and Safari. Other browsers
-   skip this block and show the page without scroll effects.
+   15. Scroll-driven effects (Chrome, Edge, Safari)
    ========================================================== */
 @supports (animation-timeline: view()) {
+  @keyframes reveal   { from { opacity: 0; transform: translateY(36px); } }
+  @keyframes progress { to { transform: scaleX(1); } }
+  @keyframes drawSeg  { from { stroke-dasharray: 0 100; } }
 
-  @keyframes reveal {
-    from { opacity: 0; transform: translateY(36px); }
-  }
-
-  @keyframes progress {
-    to { transform: scaleX(1); }
-  }
-
-  @keyframes drawSeg {
-    from { stroke-dasharray: 0 100; }
-  }
-
-  /* Reading progress line at the top of the page */
+  /* Reading progress line */
   body::before {
     content: "";
     position: fixed;
@@ -944,24 +1034,19 @@ strong { font-weight: var(--fw-strong); }
     animation-timeline: scroll(root);
   }
 
-  /* Section content fades up as it enters */
   .section > .container > * {
     animation: reveal linear backwards;
     animation-timeline: view();
     animation-range: entry 0% entry 30%;
   }
 
-  /* Skill bars grow as you scroll to them */
   .bar-fill {
     animation: grow linear both;
     animation-timeline: view();
     animation-range: entry 0% cover 25%;
   }
 
-  /* Donut segments draw one after another */
-  .donut {
-    view-timeline: --donut block;
-  }
+  .donut { view-timeline: --donut block; }
 
   .donut-seg {
     animation: drawSeg linear both;
@@ -975,31 +1060,55 @@ strong { font-weight: var(--fw-strong); }
 }
 
 /* ==========================================================
-   16. Responsive Design (keep last)
+   16. Responsive (largest to smallest, keep after components)
    ========================================================== */
+
+/* Ultra-wide */
+@media (min-width: 1800px) {
+  .container { max-width: 1760px; margin-inline: auto; }
+}
+
+/* Touch screens: bigger tap targets */
+@media (pointer: coarse) {
+  .nav-links a { min-height: 44px; align-items: center; }
+  .legend li,
+  .contact-link { min-height: 48px; }
+  .music-player__progress,
+  .music-player__volume { height: 24px; }
+  .music-player__min { width: 30px; height: 30px; }
+  .music-player__resize { width: 28px; height: 28px; }
+}
+
+/* ---------- Tablet (<= 900px): single column ---------- */
 @media (max-width: 900px) {
-  .section {
-    padding-bottom: 5rem;
-  }
+  :root { --gutter: 1.25rem; --gap: 1.25rem; }
 
-  /* Everything stacks into one column */
+  .section { padding-bottom: 5rem; }
+
   .section > .container {
-    display: block;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1.75rem;
   }
 
-  .section-subtitle {
-    margin: 1rem 0 2.5rem;
+  .section-title,
+  .section-subtitle,
+  .section > .container > :not(.section-title):not(.section-subtitle) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    min-width: 0;
   }
 
   .section-title {
     margin-bottom: 0;
+    font-size: clamp(3rem, 10vw, 7rem);
+    overflow-wrap: anywhere;
   }
+
+  .section-subtitle { margin: 0; }
 
   /* Hero: single column, stripes hidden */
   .hero::before,
-  .hero::after {
-    display: none;
-  }
+  .hero::after { display: none; }
 
   .hero-content {
     grid-template-columns: 1fr;
@@ -1015,78 +1124,66 @@ strong { font-weight: var(--fw-strong); }
     grid-row: auto;
   }
 
-  .hero-content::after {
-    margin-top: 0.2rem;
+  .hero h1 {
+    font-size: clamp(4rem, 15vw, 9rem);
+    line-height: 0.9;
+    overflow-wrap: anywhere;
   }
 
-  .hero-text {
-    margin: 4rem 0 3rem;
-  }
+  .hero-content::after { margin-top: 0.2rem; }
 
-  .about-layout {
-    grid-template-columns: 1fr;
-  }
+  .hero-text { max-width: 42ch; margin: 4rem 0 2.5rem; }
+  .hero-buttons { gap: 1rem 2rem; }
 
-  .avatar {
-    max-width: 260px;
-  }
+  .about-layout { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+  .avatar { max-width: 260px; }
 
-  .about-text,
-  .activity-grid,
-  .card-grid,
-  .skills-grid,
-  .stats-wrap,
-  .contact-list {
-    margin-top: 0;
+  .donut-figure {
+    grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+    gap: 1.5rem;
   }
 }
 
+/* ---------- Small tablet / large phone (<= 700px) ---------- */
 @media (max-width: 700px) {
-  :root {
-    --gutter: 1rem;
-    --header-height: 48px;
-  }
+  :root { --gutter: 1rem; }
 
-  /* Logo is hidden here; the back-to-top button replaces it */
-  .logo {
-    display: none;
-  }
+  .logo { display: none; }
 
-  /* One slim row of links, scrolls sideways if they don't fit */
+  /* One slim row of links that scrolls sideways */
+  .navbar { position: relative; min-width: 0; gap: 0.75rem; }
+
   .nav-links {
     width: 100%;
+    min-width: 0;
     flex-wrap: nowrap;
-    justify-content: space-between;
-    gap: 1.1rem;
+    justify-content: flex-start;
+    gap: clamp(0.85rem, 4vw, 1.4rem);
+    padding-inline: 0.1rem 28px;
     overflow-x: auto;
     scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+            mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
   }
 
-  .nav-links::-webkit-scrollbar {
-    display: none;
-  }
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-links li { flex: none; scroll-snap-align: start; }
 
   .nav-links a {
-    padding: 0.9rem 0;
+    padding: 0.85rem 0;
+    font-size: 0.72rem;
     white-space: nowrap;
   }
 
-  .nav-links a::before {
-    display: none;
-  }
+  .nav-links a::before { display: none; }
 
-  .donut-figure {
-    grid-template-columns: 1fr;
-    justify-items: center;
-  }
+  .donut-figure { grid-template-columns: 1fr; justify-items: center; }
+  .legend { width: 100%; }
 
-  .legend {
-    width: 100%;
-  }
-
-  .contact-link {
-    flex-wrap: wrap;
-  }
+  .contact-link { flex-wrap: wrap; }
 
   .contact-link span {
     order: 3;
@@ -1096,134 +1193,30 @@ strong { font-weight: var(--fw-strong); }
     text-align: left;
   }
 
+  /* Back-to-top moves left so the music player never covers it */
   .back-to-top {
-    right: 1rem;
-    bottom: 1rem;
+    right: auto;
+    left: 0.8rem;
+    bottom: max(0.8rem, env(safe-area-inset-bottom, 0px));
+    width: 40px;
+    height: 40px;
   }
 }
 
-/* ==========================================================
-   17. Mobile & Tablet Refinements
-   Append-only overrides: preserves the existing desktop design.
-   ========================================================== */
-
-/* Prevent long content and oversized elements from causing sideways scrolling. */
-html,
-body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: clip;
-}
-
-img,
-svg,
-video,
-canvas {
-  max-width: 100%;
-}
-
-/* Tablet layouts */
-@media (max-width: 900px) {
-  :root {
-    --gutter: 1.25rem;
-    --gap: 1.25rem;
-  }
-
-  .hero {
-    min-height: calc(100svh - var(--header-height));
-  }
-
-  .hero h1 {
-    font-size: clamp(4rem, 15vw, 9rem);
-    line-height: 0.9;
-    overflow-wrap: anywhere;
-  }
-
-  .hero-text {
-    grid-column: 1 / -1;
-    max-width: 42ch;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-buttons {
-    grid-column: 1 / -1;
-    gap: 1rem 2rem;
-  }
-
-  .section > .container {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 1.75rem;
-  }
-
-  .section-title,
-  .section-subtitle,
-  .section > .container > :not(.section-title):not(.section-subtitle) {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    min-width: 0;
-  }
-
-  .section-title {
-    font-size: clamp(3rem, 10vw, 7rem);
-    overflow-wrap: anywhere;
-  }
-
-  .section-subtitle {
-    margin: 0;
-  }
-
-  .about-layout {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  }
-
-  .donut-figure {
-    grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
-    gap: 1.5rem;
-  }
-}
-
-/* Phones */
+/* ---------- Phones (<= 600px) ---------- */
 @media (max-width: 600px) {
-  :root {
-    --gutter: 1rem;
-    --gap: 1rem;
-    --header-height: 48px;
-  }
+  :root { --gap: 1rem; }
 
-  body {
-    font-size: 0.95rem;
-    line-height: 1.35;
-  }
+  body { font-size: 0.95rem; line-height: 1.35; }
 
-  .site-header {
-    width: 100%;
-  }
+  /* Music player */
+  .music-player { right: 12px; bottom: max(12px, env(safe-area-inset-bottom, 0px)); width: 190px; }
+  .music-player__artwork { margin: 8px 0; }
 
-  .navbar {
-    min-width: 0;
-    gap: 0.75rem;
-  }
-
-  .nav-links {
-    min-width: 0;
-    justify-content: flex-start;
-    gap: clamp(0.85rem, 4vw, 1.4rem);
-    padding-inline: 0.1rem;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .nav-links a {
-    font-size: 0.72rem;
-    padding: 0.85rem 0;
-  }
-
-  .hero {
-    min-height: auto;
-  }
+  /* Hero */
+  .hero { min-height: auto; }
 
   .hero-content {
-    display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto;
     gap: 0;
@@ -1232,48 +1225,33 @@ canvas {
   }
 
   .hero h1 {
-    grid-column: 1 / -1;
-    grid-row: auto;
     max-width: 100%;
-    font-size: clamp(3.4rem, 17vw, 6.5rem);
-    line-height: 0.9;
-    letter-spacing: -0.075em;
     margin-left: -0.035em;
-    overflow-wrap: anywhere;
+    font-size: clamp(3.4rem, 17vw, 6.5rem);
+    letter-spacing: -0.075em;
   }
 
   .hero-content::before,
   .hero-content::after {
-    grid-column: 1 / -1;
-    grid-row: auto;
+    margin-top: 1.1rem;
     font-size: 0.7rem;
     line-height: 1.3;
-    margin-top: 1.1rem;
   }
 
-  .hero-content::after {
-    margin-top: 0.35rem;
-  }
+  .hero-content::after { margin-top: 0.35rem; }
 
   .hero-text {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    margin: 3rem 0 1.5rem;
     max-width: 38ch;
+    margin: 3rem 0 1.5rem;
     font-size: 1.05rem;
     line-height: 1.2;
     overflow-wrap: anywhere;
   }
 
   .hero-buttons {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-block: 1rem;
   }
 
   .btn {
@@ -1282,19 +1260,10 @@ canvas {
     overflow-wrap: anywhere;
   }
 
-  .section {
-    padding-bottom: 3.5rem;
-  }
-
-  .section::before {
-    padding: 0.8rem var(--gutter) 1.75rem;
-  }
-
-  .section > .container {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 1.5rem;
-  }
+  /* Sections */
+  .section { padding-bottom: 3.5rem; }
+  .section::before { padding: 0.8rem var(--gutter) 1.25rem; }
+  .section > .container { row-gap: 1.5rem; }
 
   .section-title {
     font-size: clamp(2.8rem, 13vw, 5rem);
@@ -1302,51 +1271,22 @@ canvas {
     letter-spacing: -0.06em;
   }
 
-  .section-subtitle {
-    max-width: 34ch;
-    font-size: 0.75rem;
-  }
+  .section-subtitle { max-width: 34ch; font-size: 0.75rem; }
 
-  .section > .container > :not(.section-title):not(.section-subtitle) {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    min-width: 0;
-  }
+  /* About */
+  .about-layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .avatar { width: min(100%, 200px); max-width: 100%; }
+  .about-text h3 { font-size: clamp(1.7rem, 7vw, 2.4rem); }
+  .about-text p { font-size: 1rem; line-height: 1.3; }
+  .facts li { align-items: flex-start; flex-wrap: wrap; font-size: 0.9rem; }
 
-  .about-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
-  }
-
-  .avatar {
-    width: min(100%, 240px);
-    max-width: 100%;
-  }
-
-  .about-text h3 {
-    font-size: clamp(1.7rem, 7vw, 2.4rem);
-  }
-
-  .about-text p {
-    font-size: 1rem;
-    line-height: 1.3;
-  }
-
-  .facts li {
-    align-items: flex-start;
-    flex-wrap: wrap;
-    font-size: 0.9rem;
-  }
-
+  /* Grids */
   .activity-grid,
   .card-grid,
   .skills-grid,
-  .stats {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
-  }
+  .stats { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
 
+  /* What I do: icon beside the text */
   .activity-item {
     display: grid;
     grid-template-columns: 88px minmax(0, 1fr);
@@ -1354,10 +1294,7 @@ canvas {
     align-items: start;
   }
 
-  .activity-item::before {
-    grid-column: 1 / -1;
-    margin-bottom: 1rem;
-  }
+  .activity-item::before { grid-column: 1 / -1; margin-bottom: 1rem; }
 
   .activity-item .icon {
     grid-column: 1;
@@ -1368,39 +1305,17 @@ canvas {
   }
 
   .activity-item h3,
-  .activity-item p {
-    grid-column: 2;
-  }
+  .activity-item p { grid-column: 2; }
 
-  .activity-item h3 {
-    font-size: 1.45rem;
-    overflow-wrap: anywhere;
-  }
+  .activity-item h3 { font-size: 1.45rem; overflow-wrap: anywhere; }
+  .activity-item p { font-size: 0.9rem; }
 
-  .activity-item p {
-    font-size: 0.9rem;
-  }
-
-  .project-card {
-    min-height: 250px;
-    padding: 0.7rem 0;
-  }
-
-  .project-card h3 {
-    font-size: clamp(1.8rem, 8vw, 2.5rem);
-  }
-
-  .skill-card h3 {
-    font-size: 1.4rem;
-  }
-
-  .stats-wrap {
-    gap: 2.5rem;
-  }
-
-  .stat dd {
-    font-size: clamp(3.5rem, 16vw, 6rem);
-  }
+  /* Games, skills, stats */
+  .project-card { min-height: 200px; padding: 0.7rem 0; }
+  .project-card h3 { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+  .skill-card h3 { font-size: 1.4rem; }
+  .stats-wrap { gap: 2.5rem; }
+  .stat dd { font-size: clamp(3rem, 15vw, 5rem); }
 
   .donut-figure {
     grid-template-columns: minmax(0, 1fr);
@@ -1409,73 +1324,41 @@ canvas {
     padding-top: 1.5rem;
   }
 
-  .donut {
-    width: min(72vw, 220px);
-    justify-self: center;
-  }
+  .donut { width: min(72vw, 220px); justify-self: center; }
+  .legend li { gap: 0.75rem; font-size: 1rem; }
 
-  .legend li {
-    gap: 0.75rem;
-    font-size: 1rem;
-  }
+  /* Contact & footer */
+  .contact-link { align-items: flex-start; gap: 0.8rem; padding: 1.1rem 0; }
+  .contact-link strong { font-size: clamp(1.8rem, 8vw, 3rem); overflow-wrap: anywhere; }
+  .contact-link span { font-size: 0.85rem; }
+  .contact-link::after { font-size: 1.5rem; }
 
-  .contact-link {
-    align-items: flex-start;
-    gap: 0.8rem;
-    padding: 1.1rem 0;
-  }
-
-  .contact-link strong {
-    font-size: clamp(1.8rem, 8vw, 3rem);
-    overflow-wrap: anywhere;
-  }
-
-  .contact-link::after {
-    font-size: 1.5rem;
-  }
-
-  .site-footer {
-    font-size: 0.7rem;
-    line-height: 1.5;
-  }
-
-  .back-to-top {
-    width: 40px;
-    height: 40px;
-    right: 0.8rem;
-    bottom: 0.8rem;
-  }
+  .site-footer { font-size: 0.7rem; line-height: 1.5; }
 }
 
-/* Very narrow phones (e.g. 320px wide). */
+/* ---------- Very narrow phones (<= 360px) ---------- */
 @media (max-width: 360px) {
-  :root {
-    --gutter: 0.8rem;
-  }
+  :root { --gutter: 0.8rem; }
 
-  .hero h1 {
-    font-size: clamp(3rem, 16vw, 3.8rem);
-  }
+  .hero h1 { font-size: clamp(3rem, 16vw, 3.8rem); }
+  .nav-links { gap: 0.9rem; }
 
-  .nav-links {
-    gap: 0.9rem;
-  }
-
-  .activity-item {
-    grid-template-columns: 68px minmax(0, 1fr);
-    column-gap: 0.75rem;
-  }
-
-  .activity-item .icon {
-    width: 68px;
-  }
+  .activity-item { grid-template-columns: 68px minmax(0, 1fr); column-gap: 0.75rem; }
+  .activity-item .icon { width: 68px; }
 }
 
-/* Respect reduced-motion preferences for visitors who request it. */
+/* ---------- Short landscape phones ---------- */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero { min-height: auto; }
+  .hero-text { margin: 2rem 0 1.5rem; }
+  .music-player.is-collapsed { width: 150px !important; }
+}
+
+/* ==========================================================
+   17. Reduced motion (keep last)
+   ========================================================== */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
